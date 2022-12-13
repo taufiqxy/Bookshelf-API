@@ -1,38 +1,36 @@
-const { 
-    add_book_handler,
-    get_all_books_handler,
-    get_specific_book_handler,
-    update_book_handler,
-    delete_book_handler,
-}
-= require('./handler');
+// import modules
+const { add_data } = require('./handler/add_data');
+const { show_data } = require('./handler/show_data');
+const { get_specific } = require('./handler/get_specific');
+const { update_data } = require('./handler/update_data');
+const { delete_data } = require('./handler/delete_data');
 
 // routes
 const routes = [
     {
         method: 'POST',
         path: '/books',
-        handler: add_book_handler,
+        handler: add_data,
     },
     {
         method: 'GET',
         path: '/books',
-        handler: get_all_books_handler,
+        handler: show_data,
     },
     {
         method: 'GET',
         path: '/books/{bookId}',
-        handler: get_specific_book_handler,
+        handler: get_specific,
     },
     {
         method: 'PUT',
         path: '/books/{bookId}',
-        handler: update_book_handler,
+        handler: update_data,
     },
     {
         method: 'DELETE',
         path: '/books/{bookId}',
-        handler: delete_book_handler,
+        handler: delete_data,
     },
 
 ];

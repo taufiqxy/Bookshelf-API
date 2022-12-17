@@ -2,15 +2,17 @@
 const { books } = require('../books');
 
 // update book
-const update_data = (request, h) => {
+const updateData = (request, h) => {
     // load data from client
-    const {bookId} = request.params;
-    const { name, year, author, summary, publisher, pageCount, readPage, reading } = request.payload;
+    const { bookId } = request.params;
+    const {
+        name, year, author, summary, publisher, pageCount, readPage, reading,
+    } = request.payload;
 
     const updatedAt = new Date().toISOString();
 
     // handle failed response
-    if(name === undefined){
+    if (name === undefined) {
         const response = h.response({
             status: 'fail',
             message: 'Gagal memperbarui buku. Mohon isi nama buku',
@@ -18,7 +20,7 @@ const update_data = (request, h) => {
         response.code(400);
         return response;
     }
-    if(readPage > pageCount){
+    if (readPage > pageCount) {
         const response = h.response({
             status: 'fail',
             message: 'Gagal memperbarui buku. readPage tidak boleh lebih besar dari pageCount',
@@ -26,10 +28,10 @@ const update_data = (request, h) => {
         response.code(400);
         return response;
     }
-    
+
     // check availability bookId
-    const index = books.findIndex((a_book) => a_book.id === bookId);
-    if(index === -1){
+    const index = books.findIndex((aBook) => aBook.id === bookId);
+    if (index === -1) {
         const response = h.response({
             status: 'fail',
             message: 'Gagal memperbarui buku. Id tidak ditemukan',
@@ -39,17 +41,27 @@ const update_data = (request, h) => {
     }
 
     // if success
-    if(index !== -1){
+    if (index !== -1) {
         // update finished attribute
-        if(readPage === pageCount){
+        let finished = '';
+        if (readPage === pageCount) {
             finished = true;
-        }else{
+        } else {
             finished = false;
         }
         // update all attribute
         books[index] = {
             ...books[index],
-            name, year, author, summary, publisher, pageCount, readPage, finished, reading, updatedAt,
+            name,
+            year,
+            author,
+            summary,
+            publisher,
+            pageCount,
+            readPage,
+            finished,
+            reading,
+            updatedAt,
         };
 
         const response = h.response({
@@ -58,8 +70,15 @@ const update_data = (request, h) => {
         });
         response.code(200);
         return response;
-    }    
-}
+    }
+
+    const response = h.response({
+        status: 'fail',
+        message: 'General failure!',
+    });
+    response.code(500);
+    return response;
+};
 
 // export
-module.exports = { update_data }
+module.exports = { updateData };

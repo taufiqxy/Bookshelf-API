@@ -2,10 +2,10 @@
 const { books } = require('../books');
 
 // Delete Books
-const delete_data = (request, h) => {
+const deleteData = (request, h) => {
     const { bookId } = request.params;
 
-    const index = books.findIndex((a_book) => a_book.id === bookId);
+    const index = books.findIndex((aBook) => aBook.id === bookId);
 
     if (index !== -1) {
       books.splice(index, 1);
@@ -23,7 +23,7 @@ const delete_data = (request, h) => {
     });
     response.code(404);
     return response;
-}
+};
 
 // export
-module.exports = { delete_data }
+module.exports = { deleteData };
